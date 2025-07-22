@@ -12,5 +12,8 @@ public class Proyecto {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
+        int afd = 1;
+        System.out.println(afd);
+       
     }
 }
