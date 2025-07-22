@@ -12,7 +12,7 @@ public class Proyecto {
 
     public static void main(String[] args) {
         System.out.println("Hello World!");
-        int afd = 1;
+        int afd = 2;
         System.out.println(afd);
        
     }
