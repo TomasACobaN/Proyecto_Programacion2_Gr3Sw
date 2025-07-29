@@ -14,12 +14,19 @@ import java.util.List;
 
 public class Equipo {
     private String nombre;
-    private List<Participante> jugadores = crearJugadores();
+    private String tipo;
+    private List<Jugador> jugadores;
 
     public Equipo() {
-        nombre = "SinNombre";
+        
         
     }
+
+    public Equipo(String nombre, String tipo, List<Jugador> jugadores) {
+        this.nombre = nombre;
+        
+    }
+    
 
     public Equipo(String nombre) {
         this.nombre = nombre;
@@ -34,26 +41,9 @@ public class Equipo {
         this.nombre = nombre;
     }
 
-    public List<Participante> crearJugadores() {
-        return new ArrayList<>();
-    }
+ 
 
-    public Jugador buscarJugadorPorID(String id) {
-        for (Participante j : jugadores) {
-            if (j.getID().equals(id)) {
-                return j;
-            }
-        }
-        return null;
-    }
 
-    public boolean agregarJugador(Participante jugador) {
-        if (buscarJugadorPorID(jugador.getID()) == null) {
-            jugadores.add(jugador);
-            return true;
-        }
-        return false; // ya existe
-    }
 
     @Override
     public String toString() {
