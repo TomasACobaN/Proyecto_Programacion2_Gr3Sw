@@ -4,17 +4,23 @@
  */
 package ClasesInterfacez;
 
+import ClasesBean.Equipo;
+import ClasesBean.Jugador;
+import ClasesBean.Participante;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFrame;
 
-/**
- *
- * @author Matias
- */
-public class RegistroParaEquipos extends javax.swing.JFrame {
 
+public class RegistroParaEquipos extends javax.swing.JFrame {
+    ArrayList<Participante> jugadores = new ArrayList<Participante>();
     /**
      * Creates new form RegistroParaEquipos
      */
@@ -43,8 +49,8 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
         jCBJugadores = new javax.swing.JComboBox<>();
         jBAJugador = new javax.swing.JButton();
         jBCrearEquipo = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jLJugadores = new javax.swing.JList<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTASeleccionados = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,9 +77,16 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
         });
 
         jBCrearEquipo.setText("Crear equipo");
+        jBCrearEquipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCrearEquipoActionPerformed(evt);
+            }
+        });
 
-        jLJugadores.setModel(new javax.swing.DefaultListModel());
-        jScrollPane2.setViewportView(jLJugadores);
+        jTASeleccionados.setEditable(false);
+        jTASeleccionados.setColumns(20);
+        jTASeleccionados.setRows(5);
+        jScrollPane3.setViewportView(jTASeleccionados);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,17 +106,16 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
                                 .addComponent(jBCrearEquipo)
                                 .addGap(27, 27, 27))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jCBJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCBJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jTNEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jCBCantidadIntegrantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTNEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(119, 119, 119))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)))))
+                .addGap(115, 115, 115))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,13 +128,13 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(10, 10, 10)
                         .addComponent(jTNEquipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(jCBCantidadIntegrantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(jCBJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(jCBCantidadIntegrantes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCBJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(57, 57, 57)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBAJugador)
@@ -151,13 +163,19 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
     }//GEN-LAST:event_jCBCantidadIntegrantesActionPerformed
 
     private void jBAJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAJugadorActionPerformed
-        
-        if(jCBCantidadIntegrantes.equals("Duo")){
-            
-        }else if(jCBCantidadIntegrantes.equals("Scuad")){
-            
-        }
+        jTASeleccionados.append((String)jCBJugadores.getSelectedItem() + "\n");
+        jugadores.add( encontrarJugador((String)jCBJugadores.getSelectedItem()));
+
     }//GEN-LAST:event_jBAJugadorActionPerformed
+
+    private void jBCrearEquipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCrearEquipoActionPerformed
+        if(jCBCantidadIntegrantes.getSelectedItem().equals("Duo")&& jugadores.size()==2){            
+        escribirDuos(new Equipo(jTNEquipo.getText(), (String) jCBCantidadIntegrantes.getSelectedItem(), jugadores));            
+        }else if(jCBCantidadIntegrantes.getSelectedItem().equals("Squad")&& jugadores.size()==4){
+        escribirSquads(new Equipo(jTNEquipo.getText(), (String) jCBCantidadIntegrantes.getSelectedItem(), jugadores));
+        }
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+    }//GEN-LAST:event_jBCrearEquipoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,6 +211,9 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+    
 //Metodos
      public void cargarComboBox(){
        
@@ -200,34 +221,82 @@ public class RegistroParaEquipos extends javax.swing.JFrame {
         try(BufferedReader br = new BufferedReader(new FileReader("archivos/jugadores.txt"))){
             while((linea=br.readLine()) !=null){
                 String[] partes = linea.split(";");
-                jCBJugadores.addItem(partes[0]);
+                jCBJugadores.addItem(partes[3]);
             }
         }catch(IOException e){
             e.printStackTrace();
         }
-        String linea2;
-        try(BufferedReader br = new BufferedReader(new FileReader("archivos/RegistroClientes.txt"))){
-            while((linea2=br.readLine()) !=null){
-                jCBJugadores.addItem(linea2);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+      
      }  
 
-     
+     public static void escribirDuos(Equipo equipo) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("archivos/duos.txt", true))) {
+            List<Participante> jugadores = equipo.retornarJugadores();
+            List<String> nicknames = new ArrayList<>();
+            for (Participante p : jugadores) {
+                nicknames.add(p.getNickname());
+            }
+            String jugadoresStr = String.join(",", nicknames);
+
+            bw.write(equipo.getNombre() + ";" + equipo.getTipo() + ";" + jugadoresStr);
+            bw.newLine();
+        } catch (IOException ex) {
+            System.out.println("Error al escribir duo: " + ex.getMessage());
+        }
+    }
+
+    public static void escribirSquads(Equipo equipo) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("archivos/equipos.txt", true))) {
+            List<Participante> jugadores = equipo.retornarJugadores();
+            List<String> nicknames = new ArrayList<>();
+            for (Participante p : jugadores) {
+                nicknames.add(p.getNickname());
+            }
+            String jugadoresStr = String.join(",", nicknames);
+
+            bw.write(equipo.getNombre() + ";" + equipo.getTipo() + ";" + jugadoresStr);
+            bw.newLine();
+        } catch (IOException ex) {
+            System.out.println("Error al escribir equipo: " + ex.getMessage());
+        }
+    }
+
+    public static Participante encontrarJugador(String nickname) {
+        File archivo = new File("archivos/jugadores.txt");
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(";");
+                if (partes.length >= 7 && partes[3].equalsIgnoreCase(nickname)) {
+                    String cedula = partes[0];
+                    int edad = Integer.parseInt(partes[1]);
+                    String nombre = partes[2];
+                    String nick = partes[3];
+                    String pais = partes[4];
+                    int ranking = Integer.parseInt(partes[5]);
+                    int victorias = Integer.parseInt(partes[6]);
+
+                    return new Participante(cedula, edad, nombre, nick, pais, ranking, victorias);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("Error al encontrar jugador: " + ex.getMessage());
+        }
+        return null;
+    }
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAJugador;
     private javax.swing.JButton jBCrearEquipo;
     private javax.swing.JComboBox<String> jCBCantidadIntegrantes;
     private javax.swing.JComboBox<String> jCBJugadores;
-    private javax.swing.JList<String> jLJugadores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTASeleccionados;
     private javax.swing.JTextField jTNEquipo;
     // End of variables declaration//GEN-END:variables
 }
